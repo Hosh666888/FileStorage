@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: FileStorage
+server:
+  port: 1031
+
+
+base:
+  dir: /opt/FileStorage
+  dataDir: /opt/FileStorage/data

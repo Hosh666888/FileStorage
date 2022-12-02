@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "base.dataDir",
+      "type": "java.lang.String",
+      "description": "Description for base.dataDir."
+    },
+    {
+      "name": "base.dir",
+      "type": "java.lang.String",
+      "description": "Description for base.dir."
+    }
+  ] }
