@@ -3,12 +3,14 @@ package pro.goforit.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import pro.goforit.aspect.anno.CheckIfBelong2Me;
 import pro.goforit.domain.common.ContextHolder;
 import pro.goforit.domain.common.R;
 import pro.goforit.domain.vo.FileBaseVO;
 import pro.goforit.util.FileUtil;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class BaseOperateController {
     @GetMapping(value = "cd")
     public R<List<FileBaseVO>> cd(@RequestParam("path")String path){
         log.info("pwd:{}",path);
-        File file = new File(ContextHolder.getHoneDir(), path);
+        File file = new File(ContextHolder.getHomeDir(), path);
         Assert.notNull(file,"dir not exist.");
         if (file.isFile()){
             throw new IllegalArgumentException("The directory name is invalid.");
@@ -57,5 +59,17 @@ public class BaseOperateController {
 
         return R.ok(vos);
     }
+
+    @PostMapping("rename")
+    @CheckIfBelong2Me(path = "#path")
+    public R<String> rename(@RequestParam("path")String path,@RequestParam("newName")String newName){
+        File file = new File(path);
+        Assert.notNull(file,"file not exist.");
+        String parent = file.getParent();
+        log.info("parent:{}",parent);
+        boolean b = file.renameTo(new File(parent, newName));
+        return b?R.ok(null,"重命名成功") : R.fail("重命名失败");
+    }
+
 
 }

@@ -16,7 +16,7 @@ public class ContextHolder {
         homeDir.set(dir);
     }
 
-    public static String getHoneDir(){
+    public static String getHomeDir(){
         return homeDir.get();
     }
 
